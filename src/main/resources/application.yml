@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:mysql://api.prism-sfa-dev.net:3306/sfa_db
+    username: PrismSfa
+    password: TestUser123!
+    hikari:
+      connection-timeout: 60000          # 1 minute
+      max-lifetime: 1800000              # 30 minutes
+      idle-timeout: 300000               # 5 minutes
+      maximum-pool-size: 20           # Adjust based on application needs
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  spring:
+    security:
+      enabled: false
+
+  application:
+    name: bill-service
+
+server:
+  port: 8078
+  servlet:
+    context-path: /bill-service
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
