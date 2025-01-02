@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/vivekDB
+    username: root
+    password: 14640548root
+    hikari:
+      connection-timeout: 60000          # 1 minute
+      max-lifetime: 1800000              # 30 minutes
+      idle-timeout: 300000               # 5 minutes
+      maximum-pool-size: 20           # Adjust based on application needs
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  spring:
+    security:
+      enabled: false
+
+  application:
+    name: bill-service
+application:
+  config:
+    trace: true
+server:
+  port: 8078
+  servlet:
+    context-path: /bill-service
+jwt:
+  tokenValidityInSeconds: 720000 #2 hours
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
