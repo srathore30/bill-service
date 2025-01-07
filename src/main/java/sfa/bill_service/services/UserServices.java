@@ -70,6 +70,7 @@ public class UserServices implements UserDetailsService {
         userRes.setUserStatus(userEntity.getUserStatus());
         userRes.setName(userEntity.getName());
         userRes.setId(userEntity.getId());
+        userRes.setEmail(userEntity.getEmail());
         userRes.setMobileNo(userEntity.getMobileNo());
         userRes.setUsername(userEntity.getUsername());
         return userRes;
@@ -83,12 +84,14 @@ public class UserServices implements UserDetailsService {
         userEntity.setUserRoleList(userRoleList);
         userEntity.setName(userReq.getName());
         userEntity.setUserStatus(Status.Active);
+        userEntity.setEmail(userReq.getEmail());
         userEntity.setMobileNo(userReq.getMobileNo());
         return userEntity;
     }
 
     private void updateEntityFromDto(UserEntity userEntity, UserReq userReq){
         userEntity.setName(userReq.getName());
+        userEntity.setEmail(userReq.getEmail());
         userEntity.setMobileNo(userReq.getMobileNo());
     }
 

@@ -1,4 +1,15 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: vivekpandey1464@gmail.com
+    password: mbwr dplf vxgn ehbw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   datasource:
     url: jdbc:mysql://localhost:3306/vivekDB
     username: root
@@ -16,10 +27,6 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
-  spring:
-    security:
-      enabled: false
-
   application:
     name: bill-service
 application:
@@ -28,7 +35,7 @@ application:
 server:
   port: 8078
   servlet:
-    context-path: /bill-service
+    context-path: /hospital-service
 jwt:
   tokenValidityInSeconds: 720000 #2 hours
 springdoc:

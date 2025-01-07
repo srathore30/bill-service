@@ -14,6 +14,7 @@ public class UserRes {
     String name;
     Long id;
     String username;
+    String email;
     Status userStatus;
     Long mobileNo;
 }

@@ -10,6 +10,12 @@ public enum ApiErrorCodes implements Error {
     SUCCESS(0, "Success"),
 
     INVALID_INPUT(11101, "Invalid request input"),
+    INVALID_EMAIL_CODE(202221, "Invalid email code"),
+
+    ERROR_WHILE_SENDING_EMAIL(11117, "error while sending email"),
+    CANNOT_RESET_PASSWORD(54515,"cannot reset password"),
+    LAB_TEST_NOT_FOUND(54515, "lab test not found"),
+
     INVALID_MOBILE_NUMBER(11102, "Invalid mobile number"),
     USER_NOT_FOUND(11104, "User not found"),
     INVALID_USERNAME_OR_PASSWORD(11105, "Invalid username or password" ),

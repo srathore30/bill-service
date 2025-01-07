@@ -22,6 +22,7 @@ import java.util.List;
 public class UserEntity extends BaseEntity {
         String name;
         String username;
+        String email;
         String password;
         @Enumerated(EnumType.STRING)
         List<UserRole> userRoleList;

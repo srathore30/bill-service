@@ -14,5 +14,6 @@ public class UserReq {
     String name;
     String username;
     String password;
+    String email;
     Long mobileNo;
 }
