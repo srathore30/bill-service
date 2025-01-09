@@ -91,6 +91,7 @@ public class UserServices implements UserDetailsService {
     private void updateEntityFromDto(UserEntity userEntity, UserReq userReq){
         userEntity.setName(userReq.getName());
         userEntity.setEmail(userReq.getEmail());
+        userEntity.setUsername(userReq.getUsername());
         userEntity.setMobileNo(userReq.getMobileNo());
     }
 
