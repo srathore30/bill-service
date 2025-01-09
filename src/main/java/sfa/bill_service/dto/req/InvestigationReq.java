@@ -12,5 +12,4 @@ public class InvestigationReq {
     String investigationName;
     String description;
     String cost;
-    Long userId;
 }

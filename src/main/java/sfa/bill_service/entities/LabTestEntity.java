@@ -35,5 +35,4 @@ public class LabTestEntity extends BaseEntity{
     Status status;
     String result;
     Date datePerformed;
-    Long userId;
 }

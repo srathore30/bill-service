@@ -16,6 +16,4 @@ public class DoctorReq {
     String department;
     Long phoneNumber;
     String email;
-    String availability;
-    Long userId;
 }

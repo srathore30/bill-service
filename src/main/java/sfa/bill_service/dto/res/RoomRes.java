@@ -11,7 +11,6 @@ import sfa.bill_service.constants.RoomType;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomRes {
     RoomType roomType;
-    Long userId;
     boolean isOccupied;
     Long id;
 }

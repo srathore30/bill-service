@@ -13,5 +13,4 @@ public class InvestigationRes {
     String description;
     String cost;
     Long id;
-    Long userId;
 }

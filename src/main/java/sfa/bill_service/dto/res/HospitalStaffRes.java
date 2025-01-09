@@ -20,5 +20,4 @@ public class HospitalStaffRes {
     String age;
     Long id;
     List<UserRole> userRole;
-    Long userId;
 }

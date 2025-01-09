@@ -48,30 +48,28 @@ public class LabTestController {
         return new ResponseEntity<>(labTestRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllLabTestsByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<LabTestRes>> getAllLabTestsByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllLabTest")
+    public ResponseEntity<PaginatedResp<LabTestRes>> getAllLabTest(
             @RequestParam int page,
             @RequestParam int pageSize,
             @RequestParam String sortBy,
             @RequestParam String sortDirection) {
 
-        PaginatedResp<LabTestRes> response = labTestServices.getAllLabTestByUserId(
-                userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<LabTestRes> response = labTestServices.getAllLabTest(
+                page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllLabTestsByUserIdAndLabTestStatus/{userId}/{labTestStatus}")
-    public ResponseEntity<PaginatedResp<LabTestRes>> getAllLabTestsByUserIdAndLabTestStatus(
-            @PathVariable Long userId,
+    @GetMapping("/getAllLabTestByLabTestStatus/{labTestStatus}")
+    public ResponseEntity<PaginatedResp<LabTestRes>> getAllLabTestByLabTestStatus(
             @PathVariable LabTestStatus labTestStatus,
             @RequestParam int page,
             @RequestParam int pageSize,
             @RequestParam String sortBy,
             @RequestParam String sortDirection) {
 
-        PaginatedResp<LabTestRes> response = labTestServices.getAllLabTestByUserIdAndLabTestStatus(
-                userId, labTestStatus, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<LabTestRes> response = labTestServices.getAllLabTestByLabTestStatus(
+                labTestStatus, page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

@@ -41,26 +41,24 @@ public class AppointmentController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/getAllAppointmentsByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<AppointmentRes>> getAllAppointmentsByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllAppointments")
+    public ResponseEntity<PaginatedResp<AppointmentRes>> getAllAppointments(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "appointmentDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<AppointmentRes> paginatedResp = appointmentServices.getAllRAppointmentByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<AppointmentRes> paginatedResp = appointmentServices.getAllAppointment(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllAppointmentsByUserIdAndStatus/{userId}")
-    public ResponseEntity<PaginatedResp<AppointmentRes>> getAllAppointmentsByUserIdAndStatus(
-            @PathVariable Long userId,
+    @GetMapping("/getAllAppointmentsByStatus")
+    public ResponseEntity<PaginatedResp<AppointmentRes>> getAllAppointmentsByStatus(
             @RequestParam AppointmentStatus appointmentStatus,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "appointmentDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<AppointmentRes> paginatedResp = appointmentServices.getAllAppointmentByUserIdAndStatus(userId, appointmentStatus, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<AppointmentRes> paginatedResp = appointmentServices.getAllByAppointmentStatus(appointmentStatus, page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

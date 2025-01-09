@@ -40,14 +40,13 @@ public class RoomController {
         return new ResponseEntity<>(roomRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllRoomsByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<RoomRes>> getAllRoomsByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllRoom")
+    public ResponseEntity<PaginatedResp<RoomRes>> getAllRoom(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<RoomRes> paginatedResp = roomServices.getAllRoomByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<RoomRes> paginatedResp = roomServices.getAllRoom(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

@@ -79,9 +79,8 @@ public class UserServices implements UserDetailsService {
     private UserEntity mapToEntity(UserReq userReq){
         UserEntity userEntity = new UserEntity();
         userEntity.setPassword(authConfig.passwordEncoder().encode(userReq.getPassword()));
-        List<UserRole> userRoleList = new ArrayList<>();
-        userRoleList.add(UserRole.Admin);
-        userEntity.setUserRoleList(userRoleList);
+        userEntity.setUserRoleList(userReq.getUserRoleList());
+        userEntity.setUsername(userReq.getUsername());
         userEntity.setName(userReq.getName());
         userEntity.setUserStatus(Status.Active);
         userEntity.setEmail(userReq.getEmail());

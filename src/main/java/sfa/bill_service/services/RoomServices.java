@@ -56,10 +56,10 @@ public class RoomServices {
         roomRepo.save(optionalRoomEntity.get());
     }
 
-    public PaginatedResp<RoomRes> getAllRoomByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<RoomRes> getAllRoom(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<RoomEntity> roomEntityPage = roomRepo.findByUserId(userId, pageable);
+        Page<RoomEntity> roomEntityPage = roomRepo.findAll(pageable);
         List<RoomRes> roomResList;
         roomResList = roomEntityPage.getContent().stream().filter(roomEntity -> roomEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(roomEntityPage.getTotalElements(), roomEntityPage.getTotalPages(), page, roomResList);
@@ -69,7 +69,6 @@ public class RoomServices {
         RoomEntity entity = new RoomEntity();
         entity.setOccupied(false);
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setRoomType(req.getRoomType());
         return entity;
     }
@@ -80,7 +79,6 @@ public class RoomServices {
 
     private RoomRes mapToDto(RoomEntity entity){
         RoomRes res = new RoomRes();
-        res.setUserId(entity.getUserId());
         res.setId(entity.getId());
         res.setRoomType(entity.getRoomType());
         return res;

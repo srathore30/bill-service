@@ -9,6 +9,5 @@ import sfa.bill_service.entities.AppointmentEntity;
 
 @Repository
 public interface AppointmentRepo extends JpaRepository<AppointmentEntity, Long> {
-    Page<AppointmentEntity> findByUserId(Long userId, Pageable pageable);
-    Page<AppointmentEntity> findByUserIdAndAppointmentStatus(Long userId, AppointmentStatus appointmentStatus, Pageable pageable);
+    Page<AppointmentEntity> findByAppointmentStatus(AppointmentStatus appointmentStatus, Pageable pageable);
 }

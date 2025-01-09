@@ -17,7 +17,6 @@ public class AppointmentRes {
     DoctorsEntity doctor;
     PatientsEntity patient;
     Long id;
-    Long userId;
     Date appointmentDate;
     AppointmentStatus appointmentStatus;
 }

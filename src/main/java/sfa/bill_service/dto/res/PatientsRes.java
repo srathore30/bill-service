@@ -23,7 +23,6 @@ public class PatientsRes {
     String email;
     String bloodGroup;
     String allergies;
-    Long userId;
     Long emergencyContactNumber;
     String emergencyContactName;
 }

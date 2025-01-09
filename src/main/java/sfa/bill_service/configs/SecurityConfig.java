@@ -41,7 +41,7 @@ public class SecurityConfig {
                         requestMatchers("/auth/validateToken").permitAll().
                         requestMatchers("/auth/salonLogin").permitAll().
                         requestMatchers("/auth/staffLogin").permitAll().
-                        anyRequest().authenticated())
+                        anyRequest().permitAll())
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // if any exception come
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // nothing to save on server
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

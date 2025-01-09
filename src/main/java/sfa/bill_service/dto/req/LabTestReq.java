@@ -15,5 +15,4 @@ public class LabTestReq {
     Long investigationId;
     String result;
     Date datePerformed;
-    Long userId;
 }

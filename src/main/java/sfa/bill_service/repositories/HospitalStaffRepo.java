@@ -8,5 +8,4 @@ import sfa.bill_service.entities.HospitalStaffEntity;
 
 @Repository
 public interface HospitalStaffRepo extends JpaRepository<HospitalStaffEntity, Long> {
-    Page<HospitalStaffEntity> findByUserId(Long userId, Pageable pageable);
 }

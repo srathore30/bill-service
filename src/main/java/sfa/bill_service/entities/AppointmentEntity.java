@@ -27,7 +27,6 @@ public class AppointmentEntity extends BaseEntity{
     @JsonBackReference
     DoctorsEntity doctor;
 
-    Long userId;
     Date appointmentDate;
 
     @Enumerated(EnumType.STRING)

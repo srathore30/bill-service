@@ -40,14 +40,13 @@ public class HospitalStaffController {
         return new ResponseEntity<>(hospitalStaffRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllHospitalStaffByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<HospitalStaffRes>> getAllHospitalStaffByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllHospitalStaff/")
+    public ResponseEntity<PaginatedResp<HospitalStaffRes>> getAllHospitalStaff(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<HospitalStaffRes> paginatedResp = hospitalStaffServices.getAllHospitalStaffByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<HospitalStaffRes> paginatedResp = hospitalStaffServices.getAllHospitalStaff(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

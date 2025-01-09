@@ -8,5 +8,4 @@ import sfa.bill_service.entities.PatientsEntity;
 
 @Repository
 public interface PatientsRepo extends JpaRepository<PatientsEntity, Long> {
-    Page<PatientsEntity> findByUserId(Long userId, Pageable pageable);
 }

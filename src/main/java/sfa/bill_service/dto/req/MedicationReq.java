@@ -12,5 +12,4 @@ public class MedicationReq {
     String medicineName;
     String description;
     String dosage;
-    Long userId;
 }

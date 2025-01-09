@@ -13,7 +13,6 @@ import java.util.Date;
 public class LabTestRes {
     String result;
     Date datePerformed;
-    Long userId;
     Long id;
     PatientsRes patientsRes;
     InvestigationRes investigationRes;

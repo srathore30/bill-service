@@ -23,5 +23,4 @@ public class HospitalStaffReq {
     String department;
     String designation;
     List<UserRole> userRole;
-    Long userId;
 }

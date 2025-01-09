@@ -10,5 +10,4 @@ import java.util.List;
 
 @Repository
 public interface InvestigationRepo extends JpaRepository<InvestigationEntity, Long> {
-    Page<InvestigationEntity> findByUserId(Long userId, Pageable pageable);
 }

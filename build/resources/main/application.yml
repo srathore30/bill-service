@@ -11,9 +11,9 @@ spring:
           starttls:
             enable: true
   datasource:
-    url: jdbc:mysql://localhost:3306/vivekDB
-    username: root
-    password: 14640548root
+    url: jdbc:mysql://api.shriramcarehospital.com:3306/hospital_db
+    username: ShriRamCare
+    password: Shriram@123
     hikari:
       connection-timeout: 60000          # 1 minute
       max-lifetime: 1800000              # 30 minutes

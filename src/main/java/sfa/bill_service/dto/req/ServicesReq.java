@@ -13,5 +13,4 @@ public class ServicesReq {
     String serviceCode;
     Float nablRate;
     Float nonNablRate;
-    Long userId;
 }

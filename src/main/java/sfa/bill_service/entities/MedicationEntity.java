@@ -17,7 +17,6 @@ public class MedicationEntity extends BaseEntity{
     String medicineName;
     String description;
     String dosage;
-    Long userId;
     @Enumerated(EnumType.STRING)
     Status status;
 }

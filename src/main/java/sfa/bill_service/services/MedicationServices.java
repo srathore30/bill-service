@@ -48,10 +48,10 @@ public class MedicationServices {
         medicationRepo.save(optionalMedicationEntity.get());
     }
 
-    public PaginatedResp<MedicationRes> getAllMedicationByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<MedicationRes> getAllMedication(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<MedicationEntity> medicationEntityPage = medicationRepo.findByUserId(userId, pageable);
+        Page<MedicationEntity> medicationEntityPage = medicationRepo.findAll(pageable);
         List<MedicationRes> medicationResList = new ArrayList<>();
         medicationResList = medicationEntityPage.getContent().stream().filter(medicationEntity -> medicationEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(medicationEntityPage.getTotalElements(), medicationEntityPage.getTotalPages(), page, medicationResList);
@@ -81,7 +81,6 @@ public class MedicationServices {
         MedicationEntity medicationEntity = new MedicationEntity();
         medicationEntity.setDosage(medicationReq.getDosage());
         medicationEntity.setStatus(Status.Active);
-        medicationEntity.setUserId(medicationReq.getUserId());
         medicationEntity.setDescription(medicationReq.getDescription());
         medicationEntity.setMedicineName(medicationReq.getMedicineName());
         return medicationEntity;

@@ -14,5 +14,4 @@ import sfa.bill_service.constants.Status;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomReq {
     RoomType roomType;
-    Long userId;
 }

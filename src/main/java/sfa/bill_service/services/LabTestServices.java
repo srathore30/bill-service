@@ -73,19 +73,19 @@ public class LabTestServices {
         labTestRepo.save(optionalLabTestEntity.get());
     }
 
-    public PaginatedResp<LabTestRes> getAllLabTestByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<LabTestRes> getAllLabTest(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<LabTestEntity> labTestEntityPage = labTestRepo.findByUserId(userId, pageable);
+        Page<LabTestEntity> labTestEntityPage = labTestRepo.findAll(pageable);
         List<LabTestRes> labTestResList;
         labTestResList = labTestEntityPage.getContent().stream().filter(labTestEntity -> labTestEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(labTestEntityPage.getTotalElements(), labTestEntityPage.getTotalPages(), page, labTestResList);
     }
 
-    public PaginatedResp<LabTestRes> getAllLabTestByUserIdAndLabTestStatus(Long userId, LabTestStatus labTestStatus, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<LabTestRes> getAllLabTestByLabTestStatus(LabTestStatus labTestStatus, int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<LabTestEntity> labTestEntityPage = labTestRepo.findByUserIdAndLabTestStatus(userId,labTestStatus, pageable);
+        Page<LabTestEntity> labTestEntityPage = labTestRepo.findByLabTestStatus(labTestStatus, pageable);
         List<LabTestRes> labTestResList;
         labTestResList = labTestEntityPage.getContent().stream().filter(labTestEntity -> labTestEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(labTestEntityPage.getTotalElements(), labTestEntityPage.getTotalPages(), page, labTestResList);
@@ -103,7 +103,6 @@ public class LabTestServices {
         LabTestEntity entity = new LabTestEntity();
         entity.setLabTestStatus(LabTestStatus.Pending);
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setResult(req.getResult());
         entity.setDatePerformed(req.getDatePerformed());
         entity.setPatient(optionalPatientsEntity.get());
@@ -122,7 +121,6 @@ public class LabTestServices {
         }
         entity.setLabTestStatus(LabTestStatus.Pending);
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setResult(req.getResult());
         entity.setDatePerformed(req.getDatePerformed());
         entity.setPatient(optionalPatientsEntity.get());
@@ -131,7 +129,6 @@ public class LabTestServices {
 
     private LabTestRes mapToDto(LabTestEntity entity){
         LabTestRes res = new LabTestRes();
-        res.setUserId(entity.getUserId());
         res.setId(entity.getId());
         res.setResult(entity.getResult());
         res.setPatientsRes(mapToPatient(entity.getPatient()));
@@ -142,7 +139,6 @@ public class LabTestServices {
     }
     private PatientsRes mapToPatient(PatientsEntity entity){
         PatientsRes res = new PatientsRes();
-        res.setUserId(entity.getUserId());
         res.setAge(entity.getAge());
         res.setGender(entity.getGender());
         res.setUserRoleList(entity.getUserRoleList());
@@ -161,7 +157,6 @@ public class LabTestServices {
         InvestigationRes res = new InvestigationRes();
         res.setInvestigationName(entity.getInvestigationName());
         res.setCost(entity.getCost());
-        res.setUserId(entity.getUserId());
         res.setDescription(entity.getDescription());
         return res;
     }

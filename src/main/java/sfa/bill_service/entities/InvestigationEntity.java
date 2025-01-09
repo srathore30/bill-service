@@ -19,5 +19,4 @@ public class InvestigationEntity extends BaseEntity{
     Status status;
     String description;
     String cost;
-    Long userId;
 }

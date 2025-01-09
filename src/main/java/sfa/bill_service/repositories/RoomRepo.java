@@ -8,5 +8,4 @@ import sfa.bill_service.entities.RoomEntity;
 
 @Repository
 public interface RoomRepo extends JpaRepository<RoomEntity, Long> {
-    Page<RoomEntity> findByUserId(Long userId, Pageable pageable);
 }

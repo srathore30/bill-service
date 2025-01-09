@@ -5,4 +5,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'bill-service'
+rootProject.name = 'hospital-bill-service'

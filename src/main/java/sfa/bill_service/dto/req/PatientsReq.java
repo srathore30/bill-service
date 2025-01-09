@@ -22,7 +22,6 @@ public class PatientsReq {
     String email;
     String bloodGroup;
     String allergies;
-    Long userId;
     Long emergencyContactNumber;
     String emergencyContactName;
 }

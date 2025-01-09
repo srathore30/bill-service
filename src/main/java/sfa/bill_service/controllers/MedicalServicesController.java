@@ -46,14 +46,13 @@ public class MedicalServicesController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/getAllServicesByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<ServicesRes>> getAllServicesByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllServices")
+    public ResponseEntity<PaginatedResp<ServicesRes>> getAllServices(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<ServicesRes> paginatedResp = medicalServices.getAllServicesByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<ServicesRes> paginatedResp = medicalServices.getAllServices(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

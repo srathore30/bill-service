@@ -17,12 +17,10 @@ public class DoctorsEntity extends BaseEntity{
     String name;
     @Enumerated(EnumType.STRING)
     Status status;
-    Long userId;
     String gender;
     String age;
     String specialization;
     String department;
     Long phoneNumber;
     String email;
-    String availability;
 }

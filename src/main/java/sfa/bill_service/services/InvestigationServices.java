@@ -56,10 +56,10 @@ public class InvestigationServices {
         return mapToDto(investigationRepo.save(optionalInvestigation.get()));
     }
 
-    public PaginatedResp<InvestigationRes> getAllInvestigationByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<InvestigationRes> getAllInvestigation(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<InvestigationEntity> investigationEntityPage = investigationRepo.findByUserId(userId, pageable);
+        Page<InvestigationEntity> investigationEntityPage = investigationRepo.findAll(pageable);
         List<InvestigationRes> investigationResArrayList;
         investigationResArrayList = investigationEntityPage.getContent().stream().filter(investigationEntity -> investigationEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(investigationEntityPage.getTotalElements(), investigationEntityPage.getTotalPages(), page, investigationResArrayList);
@@ -71,7 +71,6 @@ public class InvestigationServices {
         entity.setCost(req.getCost());
         entity.setStatus(Status.Active);
         entity.setDescription(req.getDescription());
-        entity.setUserId(req.getUserId());
         return entity;
     }
 
@@ -85,7 +84,6 @@ public class InvestigationServices {
         InvestigationRes res = new InvestigationRes();
         res.setInvestigationName(entity.getInvestigationName());
         res.setCost(entity.getCost());
-        res.setUserId(entity.getUserId());
         res.setDescription(entity.getDescription());
         return res;
     }

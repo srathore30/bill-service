@@ -23,5 +23,4 @@ public class ServicesEntity extends BaseEntity{
     Float nonNablRate;
     @Enumerated(EnumType.STRING)
     Status status;
-    Long userId;
 }

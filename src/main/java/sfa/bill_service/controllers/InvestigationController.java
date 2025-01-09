@@ -40,14 +40,13 @@ public class InvestigationController {
         return new ResponseEntity<>(investigationRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllInvestigationByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<InvestigationRes>> getAllInvestigationsByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllInvestigation")
+    public ResponseEntity<PaginatedResp<InvestigationRes>> getAllInvestigation(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<InvestigationRes> paginatedResp = investigationServices.getAllInvestigationByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<InvestigationRes> paginatedResp = investigationServices.getAllInvestigation(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

@@ -62,19 +62,19 @@ public class AppointmentServices {
         appointmentRepo.save(optionalAppointmentEntity.get());
     }
 
-    public PaginatedResp<AppointmentRes> getAllRAppointmentByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<AppointmentRes> getAllAppointment(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<AppointmentEntity> appointmentEntityPage = appointmentRepo.findByUserId(userId, pageable);
+        Page<AppointmentEntity> appointmentEntityPage = appointmentRepo.findAll(pageable);
         List<AppointmentRes> appointmentResList;
         appointmentResList = appointmentEntityPage.getContent().stream().filter(appointmentEntity -> appointmentEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(appointmentEntityPage.getTotalElements(), appointmentEntityPage.getTotalPages(), page, appointmentResList);
     }
 
-    public PaginatedResp<AppointmentRes> getAllAppointmentByUserIdAndStatus(Long userId, AppointmentStatus appointmentStatus,int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<AppointmentRes> getAllByAppointmentStatus(AppointmentStatus appointmentStatus,int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<AppointmentEntity> appointmentEntityPage = appointmentRepo.findByUserIdAndAppointmentStatus(userId, appointmentStatus, pageable);
+        Page<AppointmentEntity> appointmentEntityPage = appointmentRepo.findByAppointmentStatus(appointmentStatus, pageable);
         List<AppointmentRes> appointmentResList;
         appointmentResList = appointmentEntityPage.getContent().stream().filter(appointmentEntity -> appointmentEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(appointmentEntityPage.getTotalElements(), appointmentEntityPage.getTotalPages(), page, appointmentResList);
@@ -91,7 +91,6 @@ public class AppointmentServices {
         }
         AppointmentEntity entity = new AppointmentEntity();
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setAppointmentDate(req.getAppointmentDate());
         entity.setAppointmentStatus(req.getAppointmentStatus());
         entity.setDoctor(optionalDoctorsEntity.get());
@@ -101,7 +100,6 @@ public class AppointmentServices {
 
     private AppointmentRes mapToDto(AppointmentEntity entity){
         AppointmentRes res = new AppointmentRes();
-        res.setUserId(entity.getUserId());
         res.setId(entity.getId());
         res.setAppointmentDate(entity.getAppointmentDate());
         res.setAppointmentStatus(entity.getAppointmentStatus());

@@ -16,7 +16,5 @@ public class DoctorRes {
     String department;
     Long phoneNumber;
     String email;
-    String availability;
     Long id;
-    Long userId;
 }

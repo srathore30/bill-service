@@ -29,7 +29,6 @@ public class PatientsEntity extends BaseEntity{
     String email;
     String bloodGroup;
     String allergies;
-    Long userId;
     Long emergencyContactNumber;
     String emergencyContactName;
 

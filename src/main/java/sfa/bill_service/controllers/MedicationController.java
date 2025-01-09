@@ -40,14 +40,13 @@ public class MedicationController {
         return new ResponseEntity<>(medicationRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllMedicationByUserId/{userId}")
-    public ResponseEntity<PaginatedResp<MedicationRes>> getAllMedicationByUserId(
-            @PathVariable Long userId,
+    @GetMapping("/getAllMedication")
+    public ResponseEntity<PaginatedResp<MedicationRes>> getAllMedication(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdDate") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        PaginatedResp<MedicationRes> paginatedResp = medicationServices.getAllMedicationByUserId(userId, page, pageSize, sortBy, sortDirection);
+        PaginatedResp<MedicationRes> paginatedResp = medicationServices.getAllMedication(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

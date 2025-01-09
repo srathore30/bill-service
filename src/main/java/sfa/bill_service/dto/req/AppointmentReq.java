@@ -14,7 +14,6 @@ import java.util.Date;
 public class AppointmentReq {
     Long doctorId;
     Long patientId;
-    Long userId;
     Date appointmentDate;
     AppointmentStatus appointmentStatus;
 }

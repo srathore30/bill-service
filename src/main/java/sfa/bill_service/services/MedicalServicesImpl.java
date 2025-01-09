@@ -64,10 +64,10 @@ public class MedicalServicesImpl {
         return mapToDto(servicesRepo.save(optionalServicesEntity.get()));
     }
 
-    public PaginatedResp<ServicesRes> getAllServicesByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<ServicesRes> getAllServices(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<ServicesEntity> servicesEntityPage = servicesRepo.findByUserId(userId, pageable);
+        Page<ServicesEntity> servicesEntityPage = servicesRepo.findAll(pageable);
         List<ServicesRes> servicesResList;
         servicesResList = servicesEntityPage.getContent().stream().filter(servicesEntity -> servicesEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(servicesEntityPage.getTotalElements(), servicesEntityPage.getTotalPages(), page, servicesResList);
@@ -76,7 +76,6 @@ public class MedicalServicesImpl {
     private ServicesEntity mapToEntity(ServicesReq req){
         ServicesEntity entity = new ServicesEntity();
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setServiceCode(req.getServiceCode());
         entity.setServiceName(req.getServiceName());
         entity.setNablRate(req.getNablRate());
@@ -85,7 +84,6 @@ public class MedicalServicesImpl {
     }
 
     private void updateEntityFromDto(ServicesEntity entity, ServicesReq req){
-        entity.setUserId(req.getUserId());
         entity.setServiceCode(req.getServiceCode());
         entity.setServiceName(req.getServiceName());
         entity.setNablRate(req.getNablRate());
@@ -94,7 +92,6 @@ public class MedicalServicesImpl {
 
     private ServicesRes mapToDto(ServicesEntity entity){
         ServicesRes res = new ServicesRes();
-        res.setUserId(entity.getUserId());
         res.setServiceCode(entity.getServiceCode());
         res.setServiceName(entity.getServiceName());
         res.setNablRate(entity.getNablRate());

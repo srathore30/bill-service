@@ -55,10 +55,10 @@ public class HospitalStaffServices {
         return mapToDto(hospitalStaffRepo.save(optionalHospitalStaffEntity.get()));
     }
 
-    public PaginatedResp<HospitalStaffRes> getAllHospitalStaffByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<HospitalStaffRes> getAllHospitalStaff(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<HospitalStaffEntity> hospitalStaffEntityPage = hospitalStaffRepo.findByUserId(userId, pageable);
+        Page<HospitalStaffEntity> hospitalStaffEntityPage = hospitalStaffRepo.findAll(pageable);
         List<HospitalStaffRes> HospitalStaffResList;
         HospitalStaffResList = hospitalStaffEntityPage.getContent().stream().filter(hospitalStaffEntity -> hospitalStaffEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(hospitalStaffEntityPage.getTotalElements(), hospitalStaffEntityPage.getTotalPages(), page, HospitalStaffResList);
@@ -67,12 +67,10 @@ public class HospitalStaffServices {
     private HospitalStaffEntity mapToEntity(HospitalStaffReq req){
         HospitalStaffEntity entity = new HospitalStaffEntity();
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setAge(req.getAge());
         entity.setDepartment(req.getDepartment());
         entity.setDesignation(req.getDesignation());
         entity.setGender(req.getGender());
-        entity.setUserRoleList(req.getUserRole());
         entity.setStaffName(req.getStaffName());
         return entity;
     }
@@ -87,14 +85,11 @@ public class HospitalStaffServices {
 
     private HospitalStaffRes mapToDto(HospitalStaffEntity entity){
         HospitalStaffRes res = new HospitalStaffRes();
-        res.setUserId(entity.getUserId());
         res.setId(entity.getId());
-        res.setUserId(entity.getUserId());
         res.setAge(entity.getAge());
         res.setDepartment(entity.getDepartment());
         res.setDesignation(entity.getDesignation());
         res.setGender(entity.getGender());
-        res.setUserRole(entity.getUserRoleList());
         res.setStaffName(entity.getStaffName());
         return res;
     }

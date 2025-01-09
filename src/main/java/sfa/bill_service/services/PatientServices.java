@@ -56,10 +56,10 @@ public class PatientServices {
         patientRepo.save(optionalPatientsEntity.get());
     }
 
-    public PaginatedResp<PatientsRes> getAllPatientsByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<PatientsRes> getAllPatients(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<PatientsEntity> patientsEntityPage = patientRepo.findByUserId(userId, pageable);
+        Page<PatientsEntity> patientsEntityPage = patientRepo.findAll(pageable);
         List<PatientsRes> patientsResList;
         patientsResList = patientsEntityPage.getContent().stream().filter(patientsEntity -> patientsEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(patientsEntityPage.getTotalElements(), patientsEntityPage.getTotalPages(), page, patientsResList);
@@ -68,7 +68,6 @@ public class PatientServices {
     private PatientsEntity mapToEntity(PatientsReq req){
         PatientsEntity entity = new PatientsEntity();
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setAge(req.getAge());
         entity.setGender(req.getGender());
         entity.setUserRoleList(req.getUserRoleList());
@@ -99,7 +98,6 @@ public class PatientServices {
 
     private PatientsRes mapToDto(PatientsEntity entity){
         PatientsRes res = new PatientsRes();
-        res.setUserId(entity.getUserId());
         res.setAge(entity.getAge());
         res.setGender(entity.getGender());
         res.setUserRoleList(entity.getUserRoleList());

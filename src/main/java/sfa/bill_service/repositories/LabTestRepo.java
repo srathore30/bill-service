@@ -9,6 +9,5 @@ import sfa.bill_service.entities.LabTestEntity;
 
 @Repository
 public interface LabTestRepo extends JpaRepository<LabTestEntity, Long> {
-    Page<LabTestEntity> findByUserId(Long userId, Pageable pageable);
-    Page<LabTestEntity> findByUserIdAndLabTestStatus(Long userId, LabTestStatus labTestStatus, Pageable pageable);
+    Page<LabTestEntity> findByLabTestStatus(LabTestStatus labTestStatus, Pageable pageable);
 }

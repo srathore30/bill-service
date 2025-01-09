@@ -57,10 +57,10 @@ public class DoctorServices {
         doctorRepo.save(optionalDoctorsEntity.get());
     }
 
-    public PaginatedResp<DoctorRes> getAllDoctorByUserId(Long userId, int page, int pageSize, String sortBy, String sortDirection) {
+    public PaginatedResp<DoctorRes> getAllDoctor(int page, int pageSize, String sortBy, String sortDirection) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, pageSize, sort);
-        Page<DoctorsEntity> doctorEntityPage = doctorRepo.findByUserId(userId, pageable);
+        Page<DoctorsEntity> doctorEntityPage = doctorRepo.findAll(pageable);
         List<DoctorRes> doctorResList;
         doctorResList = doctorEntityPage.getContent().stream().filter(doctorEntity -> doctorEntity.getStatus() == Status.Active).map(this::mapToDto).toList();
         return new PaginatedResp<>(doctorEntityPage.getTotalElements(), doctorEntityPage.getTotalPages(), page, doctorResList);
@@ -69,40 +69,34 @@ public class DoctorServices {
     private DoctorsEntity mapToEntity(DoctorReq req){
         DoctorsEntity entity = new DoctorsEntity();
         entity.setStatus(Status.Active);
-        entity.setUserId(req.getUserId());
         entity.setAge(req.getAge());
         entity.setGender(req.getGender());
         entity.setEmail(req.getEmail());
         entity.setDepartment(req.getDepartment());
         entity.setSpecialization(req.getSpecialization());
-        entity.setAvailability(req.getAvailability());
         entity.setName(req.getName());
         entity.setPhoneNumber(req.getPhoneNumber());
         return entity;
     }
 
     private void updateEntityFromDto(DoctorsEntity entity, DoctorReq req){
-        entity.setUserId(req.getUserId());
         entity.setAge(req.getAge());
         entity.setGender(req.getGender());
         entity.setEmail(req.getEmail());
         entity.setDepartment(req.getDepartment());
         entity.setSpecialization(req.getSpecialization());
-        entity.setAvailability(req.getAvailability());
         entity.setName(req.getName());
         entity.setPhoneNumber(req.getPhoneNumber());
     }
 
     private DoctorRes mapToDto(DoctorsEntity entity){
         DoctorRes res = new DoctorRes();
-        res.setUserId(entity.getUserId());
         res.setId(entity.getId());
         res.setAge(entity.getAge());
         res.setGender(entity.getGender());
         res.setEmail(entity.getEmail());
         res.setDepartment(entity.getDepartment());
         res.setSpecialization(entity.getSpecialization());
-        res.setAvailability(entity.getAvailability());
         res.setName(entity.getName());
         res.setPhoneNumber(entity.getPhoneNumber());
         return res;

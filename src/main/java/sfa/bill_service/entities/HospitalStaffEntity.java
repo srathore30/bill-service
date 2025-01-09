@@ -24,7 +24,4 @@ public class HospitalStaffEntity extends BaseEntity{
     String age;
     String department;
     String designation;
-    @Enumerated(EnumType.STRING)
-    List<UserRole> userRoleList;
-    Long userId;
 }

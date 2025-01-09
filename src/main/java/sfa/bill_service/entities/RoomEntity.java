@@ -20,5 +20,4 @@ public class RoomEntity extends BaseEntity{
     @Enumerated(EnumType.STRING)
     Status status;
     boolean isOccupied;
-    Long userId;
 }
