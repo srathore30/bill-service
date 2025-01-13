@@ -44,7 +44,7 @@ public class HospitalStaffController {
     public ResponseEntity<PaginatedResp<HospitalStaffRes>> getAllHospitalStaff(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
         PaginatedResp<HospitalStaffRes> paginatedResp = hospitalStaffServices.getAllHospitalStaff(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);

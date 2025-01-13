@@ -44,7 +44,7 @@ public class RoomController {
     public ResponseEntity<PaginatedResp<RoomRes>> getAllRoom(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
         PaginatedResp<RoomRes> paginatedResp = roomServices.getAllRoom(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);

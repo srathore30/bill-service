@@ -63,10 +63,10 @@ public class LabTestController {
     @GetMapping("/getAllLabTestByLabTestStatus/{labTestStatus}")
     public ResponseEntity<PaginatedResp<LabTestRes>> getAllLabTestByLabTestStatus(
             @PathVariable LabTestStatus labTestStatus,
-            @RequestParam int page,
-            @RequestParam int pageSize,
-            @RequestParam String sortBy,
-            @RequestParam String sortDirection) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
 
         PaginatedResp<LabTestRes> response = labTestServices.getAllLabTestByLabTestStatus(
                 labTestStatus, page, pageSize, sortBy, sortDirection);

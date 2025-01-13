@@ -50,7 +50,7 @@ public class MedicalServicesController {
     public ResponseEntity<PaginatedResp<ServicesRes>> getAllServices(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "createdDate") String sortBy,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
         PaginatedResp<ServicesRes> paginatedResp = medicalServices.getAllServices(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);

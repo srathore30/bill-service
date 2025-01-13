@@ -56,7 +56,7 @@ public class AppointmentController {
             @RequestParam AppointmentStatus appointmentStatus,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
-            @RequestParam(defaultValue = "appointmentDate") String sortBy,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
         PaginatedResp<AppointmentRes> paginatedResp = appointmentServices.getAllByAppointmentStatus(appointmentStatus, page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
