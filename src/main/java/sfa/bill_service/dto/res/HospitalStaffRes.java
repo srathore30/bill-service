@@ -19,5 +19,4 @@ public class HospitalStaffRes {
     String gender;
     String age;
     Long id;
-    List<UserRole> userRole;
 }

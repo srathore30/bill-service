@@ -10,5 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ServicesRepo extends JpaRepository<ServicesEntity, Long> {
-    Optional<ServicesEntity> findByServiceCode(String serviceCode);
+    Page<ServicesEntity> findByServiceCategoryId(Long serviceCategoryId, Pageable pageable);
+    Optional<ServicesEntity> findByServiceCodeAndCghsLocation(String serviceCode, String cghsLocation);
 }

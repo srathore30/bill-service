@@ -40,7 +40,7 @@ public class HospitalStaffController {
         return new ResponseEntity<>(hospitalStaffRes, HttpStatus.OK);
     }
 
-    @GetMapping("/getAllHospitalStaff/")
+    @GetMapping("/getAllHospitalStaff")
     public ResponseEntity<PaginatedResp<HospitalStaffRes>> getAllHospitalStaff(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,

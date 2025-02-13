@@ -22,5 +22,4 @@ public class HospitalStaffReq {
     String age;
     String department;
     String designation;
-    List<UserRole> userRole;
 }

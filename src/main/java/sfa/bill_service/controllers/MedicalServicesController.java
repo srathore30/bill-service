@@ -9,6 +9,8 @@ import sfa.bill_service.dto.res.PaginatedResp;
 import sfa.bill_service.dto.res.ServicesRes;
 import sfa.bill_service.services.MedicalServicesImpl;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/services")
 @RequiredArgsConstructor
@@ -21,6 +23,11 @@ public class MedicalServicesController {
         ServicesRes servicesRes = medicalServices.createServices(servicesReq);
         return new ResponseEntity<>(servicesRes, HttpStatus.CREATED);
     }
+    @PostMapping("/bulk")
+    public ResponseEntity<List<ServicesRes>> createServicesInBulk(@RequestBody List<ServicesReq> servicesReq) {
+        List<ServicesRes> servicesRes = medicalServices.createServicesInBulk(servicesReq);
+        return new ResponseEntity<>(servicesRes, HttpStatus.CREATED);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ServicesRes> getServiceById(@PathVariable Long id) {
@@ -28,9 +35,9 @@ public class MedicalServicesController {
         return new ResponseEntity<>(servicesRes, HttpStatus.OK);
     }
 
-    @GetMapping("/byServiceCode/{serviceCode}")
-    public ResponseEntity<ServicesRes> getServiceByServiceCode(@PathVariable String serviceCode) {
-        ServicesRes servicesRes = medicalServices.getServicesByServiceCode(serviceCode);
+    @GetMapping("/byServiceCodeAndCghsLocation/{serviceCode}/{cghsLocation}")
+    public ResponseEntity<ServicesRes> getServicesByServiceCodeAndCghLocation(@PathVariable String serviceCode, @PathVariable String cghsLocation) {
+        ServicesRes servicesRes = medicalServices.getServicesByServiceCodeAndCghLocation(serviceCode, cghsLocation);
         return new ResponseEntity<>(servicesRes, HttpStatus.OK);
     }
 
@@ -53,6 +60,17 @@ public class MedicalServicesController {
             @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
         PaginatedResp<ServicesRes> paginatedResp = medicalServices.getAllServices(page, pageSize, sortBy, sortDirection);
+        return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllServicesByCategoryId")
+    public ResponseEntity<PaginatedResp<ServicesRes>> getAllServicesByCategoryId(
+            @RequestParam Long categoryId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection) {
+        PaginatedResp<ServicesRes> paginatedResp = medicalServices.getAllServicesByCategoryId(categoryId,page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedResp, HttpStatus.OK);
     }
 }

@@ -72,6 +72,7 @@ public class PatientServices {
         entity.setGender(req.getGender());
         entity.setUserRoleList(req.getUserRoleList());
         entity.setEmail(req.getEmail());
+        entity.setAddress(req.getAddress());
         entity.setAllergies(req.getAllergies());
         entity.setAge(req.getAge());
         entity.setBloodGroup(req.getBloodGroup());
@@ -89,6 +90,7 @@ public class PatientServices {
         entity.setEmail(req.getEmail());
         entity.setAllergies(req.getAllergies());
         entity.setAge(req.getAge());
+        entity.setAddress(req.getAddress());
         entity.setBloodGroup(req.getBloodGroup());
         entity.setName(req.getName());
         entity.setContactNumber(req.getContactNumber());
@@ -104,6 +106,7 @@ public class PatientServices {
         res.setEmail(entity.getEmail());
         res.setAllergies(entity.getAllergies());
         res.setId(entity.getId());
+        res.setAddress(entity.getAddress());
         res.setAge(entity.getAge());
         res.setBloodGroup(entity.getBloodGroup());
         res.setName(entity.getName());

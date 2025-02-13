@@ -3,6 +3,8 @@ package sfa.bill_service.dto.req;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -11,6 +13,8 @@ import lombok.experimental.FieldDefaults;
 public class ServicesReq {
     String serviceName;
     String serviceCode;
+    Long categoryId;
+    String cghsLocation;
     Float nablRate;
     Float nonNablRate;
 }

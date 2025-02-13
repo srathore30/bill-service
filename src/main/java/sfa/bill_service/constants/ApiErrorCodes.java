@@ -15,6 +15,7 @@ public enum ApiErrorCodes implements Error {
     ERROR_WHILE_SENDING_EMAIL(11117, "error while sending email"),
     CANNOT_RESET_PASSWORD(54515,"cannot reset password"),
     LAB_TEST_NOT_FOUND(54515, "lab test not found"),
+    CATEGORY_NOT_FOUND(54515, "CATEGORY not found"),
 
     INVALID_MOBILE_NUMBER(11102, "Invalid mobile number"),
     USER_NOT_FOUND(11104, "User not found"),
