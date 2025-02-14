@@ -28,7 +28,9 @@ public enum ApiErrorCodes implements Error {
     STAFF_NOT_FOUND(11245, "Staff not found"),
     DOCTOR_NOT_FOUND(11245, "Doctor not found"),
     PATIENTS_NOT_FOUND(11245, "Patients not found"),
-    APPOINTMENT_NOT_FOUND(11245, "Appointment not found");
+    APPOINTMENT_NOT_FOUND(11245, "Appointment not found"),
+    BILL_NOT_FOUND(11246,"Bill not found"),
+    BILL_ENTRY_NOT_FOUND(11247,"Bill entry not found");
 
 
 

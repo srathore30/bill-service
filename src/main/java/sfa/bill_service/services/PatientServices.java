@@ -80,6 +80,7 @@ public class PatientServices {
         entity.setContactNumber(req.getContactNumber());
         entity.setEmergencyContactName(req.getEmergencyContactName());
         entity.setEmergencyContactNumber(req.getEmergencyContactNumber());
+        entity.setNabl(req.isNabl());
         return entity;
     }
 
@@ -113,6 +114,7 @@ public class PatientServices {
         res.setContactNumber(entity.getContactNumber());
         res.setEmergencyContactName(entity.getEmergencyContactName());
         res.setEmergencyContactNumber(entity.getEmergencyContactNumber());
+        res.setNabl(entity.isNabl());
         return res;
     }
 }

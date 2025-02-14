@@ -31,5 +31,6 @@ public class PatientsEntity extends BaseEntity{
     String allergies;
     Long emergencyContactNumber;
     String emergencyContactName;
+    boolean isNabl;
 
 }

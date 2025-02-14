@@ -25,4 +25,5 @@ public class PatientsRes {
     String allergies;
     Long emergencyContactNumber;
     String emergencyContactName;
+    boolean isNabl;
 }
