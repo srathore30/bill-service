@@ -1,5 +1,6 @@
 package sfa.bill_service.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sfa.bill_service.constants.ApiErrorCodes;
@@ -16,6 +17,7 @@ import sfa.bill_service.exceptions.NoSuchElementFoundException;
 import sfa.bill_service.repositories.BillEntryRepo;
 import sfa.bill_service.repositories.ServicesRepo;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,42 +40,24 @@ public class BillEntryService {
         return mapToDto(optionalBillEntry.get());
     }
 
-    public BillEntryRes updateBillEntryById(Long id, BillEntryReq billEntryReq) {
-        Optional<BillEntryEntity> optionalBillEntry = billEntryRepo.findById(id);
-        if (optionalBillEntry.isEmpty()) {
-            throw new NoSuchElementFoundException(ApiErrorCodes.BILL_ENTRY_NOT_FOUND.getErrorCode(), ApiErrorCodes.BILL_ENTRY_NOT_FOUND.getErrorMessage());
-        }
-        updateEntityFromDto(optionalBillEntry.get(), billEntryReq);
-        return mapToDto(billEntryRepo.save(optionalBillEntry.get()));
-    }
-
     public List<BillEntryRes> getAllBillEntries() {
         return billEntryRepo.findAll().stream()
-                .filter(entry -> entry.getStatus() == Status.Active)
                 .map(this::mapToDto)
                 .toList();
     }
 
     private BillEntryEntity mapToEntity(BillEntryReq req) {
         BillEntryEntity entity = new BillEntryEntity();
-        entity.setContactNumber(req.getContactNumber());
-        entity.setDate(req.getDate());
-        entity.setPaidAmount(req.getPaidAmount() != null ? req.getPaidAmount() : 0.0);
+        entity.setPaidAmount(0.0);
 
         PatientsEntity patient = new PatientsEntity();
-        patient.setId(req.getPatientId());
+        patient.setId(req.getBillId());
         entity.setPatient(patient);
-        boolean isNabl = patient != null && patient.isNabl();
+        boolean isNabl = patient.isNabl();
 
         List<ServicesEntity> services = servicesRepo.findAllById(req.getServiceIds());
         double totalAmount = services.stream()
-                .mapToDouble(service -> {
-                    ServiceCategory category = service.getServiceCategory();
-                    if (service.getStatus() == Status.Active && category != null) {
-                        return category.getStatus() == Status.Active ? service.getNablRate() : service.getNonNablRate();
-                    }
-                    return 0.0;
-                })
+                .mapToDouble(service -> isNabl ? service.getNablRate() : service.getNonNablRate())
                 .sum();
 
         entity.setTotalAmount(totalAmount);
@@ -91,19 +75,29 @@ public class BillEntryService {
         return entity;
     }
 
-    private void updateEntityFromDto(BillEntryEntity entity, BillEntryReq req) {
-        entity.setContactNumber(req.getContactNumber());
-        entity.setDate(req.getDate());
-        entity.setTotalAmount(req.getTotalAmount());
-        entity.setPaidAmount(req.getPaidAmount());
-        entity.setBillStatus(req.getBillStatus());
+
+    @Transactional
+    public void updatePaidAmount(Long entryId, double paidAmount) {
+        BillEntryEntity billEntry = billEntryRepo.findById(entryId)
+                .orElseThrow(() -> new NoSuchElementFoundException(ApiErrorCodes.BILL_ENTRY_NOT_FOUND.getErrorCode(),
+                        ApiErrorCodes.BILL_ENTRY_NOT_FOUND.getErrorMessage()));
+
+        billEntry.setPaidAmount(paidAmount);
+        if (paidAmount == billEntry.getTotalAmount()) {
+            billEntry.setBillStatus(BillStatus.PAID);
+        } else {
+            billEntry.setBillStatus(BillStatus.UNPAID);
+        }
+
+        billEntryRepo.save(billEntry);
     }
+
 
     private BillEntryRes mapToDto(BillEntryEntity entity) {
         BillEntryRes res = new BillEntryRes();
         res.setId(entity.getId());
         res.setContactNumber(entity.getContactNumber());
-        res.setDate(entity.getDate());
+        res.setDate(new Date());
         res.setTotalAmount(entity.getTotalAmount());
         res.setPaidAmount(entity.getPaidAmount());
         res.setBillStatus(entity.getBillStatus());

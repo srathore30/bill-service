@@ -23,6 +23,6 @@ public class BillEntryRes {
     PatientsRes patient;
     Status status;
     List<ServicesRes> serviceList;
-    BillRes bill;
+    Long bill;
 }
 

@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public interface BillRepo extends JpaRepository<BillEntity,Long> {
 
-    List<BillEntity> findByContactNumberAndStatus(Long contactNumber, Status status);
+    List<BillEntity> findByContactNumber(Long contactNumber);
+    boolean existsByPatientId(Long patientId);
 
 }

@@ -28,20 +28,13 @@ class BillEntryController {
         return new ResponseEntity<>(billEntryRes, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BillEntryRes> updateBillEntryById(@PathVariable Long id, @RequestBody BillEntryReq billEntryReq) {
-        BillEntryRes billEntryRes = billEntryService.updateBillEntryById(id, billEntryReq);
-        return new ResponseEntity<>(billEntryRes, HttpStatus.OK);
-    }
-
     @GetMapping("/getAllBills")
     public ResponseEntity<List<BillEntryRes>> getAllBills() {
         return new ResponseEntity<>(billEntryService.getAllBillEntries(), HttpStatus.OK);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBillEntryById(@PathVariable Long id) {
-        billEntryService.deleteBillEntryById(id);
+    @PutMapping("/updatePaidAmount/{entryId}")
+    public ResponseEntity<Void> updatePaidAmount(@PathVariable Long entryId, @RequestParam double paidAmount) {
+        billEntryService.updatePaidAmount(entryId, paidAmount);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -24,13 +24,14 @@ public class BillEntity extends BaseEntity{
     Double totalAmount;
     Double paidAmount;
 
+    @Enumerated(EnumType.STRING)
     BillStatus billStatus;
 
     @ManyToOne
     PatientsEntity patient;
-
+    @Enumerated(EnumType.STRING)
     Status status;
 
     @OneToMany(mappedBy = "bill", cascade = CascadeType.ALL)
-    List<BillEntryEntity> billEntryList;
+    List<BillEntryEntity> billEntries;
 }
