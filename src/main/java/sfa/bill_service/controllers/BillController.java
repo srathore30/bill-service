@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sfa.bill_service.constants.UserRole;
 import sfa.bill_service.entities.BillEntity;
 import sfa.bill_service.entities.BillEntryEntity;
+import sfa.bill_service.interceptor.UserAuthorization;
 import sfa.bill_service.services.BillService;
 import sfa.bill_service.dto.res.PaginatedResp;
 
@@ -19,18 +21,21 @@ class BillController {
     private final BillService billService;
 
     @PostMapping("/create")
-    public ResponseEntity<BillEntity> createBill(@RequestParam Long patientId, @RequestBody List<BillEntryEntity> billEntries) {
-        BillEntity bill = billService.createBill(patientId, billEntries);
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
+    public ResponseEntity<BillEntity> createBill(@RequestParam Long patientId) {
+        BillEntity bill = billService.createBill(patientId);
         return new ResponseEntity<>(bill, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
     public ResponseEntity<BillEntity> getBillById(@PathVariable Long id) {
         BillEntity bill = billService.getBillById(id);
         return new ResponseEntity<>(bill, HttpStatus.OK);
     }
 
     @GetMapping("/getAllBills")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
     public ResponseEntity<Page<BillEntity>> getAllBills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
@@ -40,13 +45,15 @@ class BillController {
         return new ResponseEntity<>(paginatedBills, HttpStatus.OK);
     }
 
-    @PostMapping("/finalizeBill/{contactNumber}")
-    public ResponseEntity<Void> finalizeBill(@PathVariable Long contactNumber) {
-        billService.finalizeBill(contactNumber);
+    @PostMapping("/finalizeBill/{patientId}")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
+    public ResponseEntity<Void> finalizeBill(@PathVariable Long patientId) {
+        billService.finalizeBill(patientId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/findByContactNumber/{contactNumber}")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
     public ResponseEntity<List<BillEntity>> getBillByContactNumber(@PathVariable Long contactNumber) {
         List<BillEntity> bills = billService.getBillByContactNumber(contactNumber);
         return new ResponseEntity<>(bills, HttpStatus.OK);

@@ -16,6 +16,7 @@ import sfa.bill_service.entities.BillEntity;
 import sfa.bill_service.entities.BillEntryEntity;
 import sfa.bill_service.entities.PatientsEntity;
 import sfa.bill_service.exceptions.NoSuchElementFoundException;
+import sfa.bill_service.exceptions.ValidationException;
 import sfa.bill_service.repositories.BillEntryRepo;
 import sfa.bill_service.repositories.BillRepo;
 import sfa.bill_service.repositories.PatientsRepo;
@@ -32,19 +33,20 @@ public class BillService {
     private final PatientsRepo patientsRepo;
 
 
-    public BillEntity createBill(Long patientId, List<BillEntryEntity> billEntries) {
+    public BillEntity createBill(Long patientId) {
         PatientsEntity patient = patientsRepo.findById(patientId)
                 .orElseThrow(() -> new NoSuchElementFoundException(ApiErrorCodes.PATIENTS_NOT_FOUND.getErrorCode(),
                         ApiErrorCodes.PATIENTS_NOT_FOUND.getErrorMessage()));
 
-        if (billRepo.existsByPatientId(patientId)) {
+        if (billRepo.findByPatientIdAndStatus(patientId,Status.Active).isPresent()) {
             throw new NoSuchElementFoundException(ApiErrorCodes.ACTIVE_BILL_EXISTS.getErrorCode(),
                     ApiErrorCodes.ACTIVE_BILL_EXISTS.getErrorMessage());
         }
         BillEntity bill = new BillEntity();
+        bill.setStatus(Status.Active);
         bill.setPatient(patient);
         bill.setContactNumber(patient.getContactNumber());
-        bill.setTotalAmount(billEntries.stream().mapToDouble(BillEntryEntity::getTotalAmount).sum());
+        bill.setTotalAmount(0.0);
         bill.setPaidAmount(0.0);
         bill.setBillStatus(BillStatus.UNPAID);
 
@@ -68,9 +70,9 @@ public class BillService {
 
 
     @Transactional
-    public void finalizeBill(Long contactNumber) {
-        List<BillEntity> bills = billRepo.findByContactNumber(contactNumber);
-        for (BillEntity bill : bills) {
+    public void finalizeBill(Long patientId) {
+        BillEntity bill = billRepo.findByPatientIdAndStatus(patientId, Status.Active)
+                .orElseThrow(() -> new ValidationException(ApiErrorCodes.BILL_NOT_FOUND.getErrorCode(),ApiErrorCodes.BILL_NOT_FOUND.getErrorMessage()));
             double totalAmount = 0.0;
             double paidAmount = 0.0;
             for (BillEntryEntity entry : bill.getBillEntries()) {
@@ -80,7 +82,7 @@ public class BillService {
             bill.setTotalAmount(totalAmount);
             bill.setPaidAmount(paidAmount);
 
-            if (paidAmount >= totalAmount) {
+            if (paidAmount == totalAmount) {
                 bill.setBillStatus(BillStatus.PAID);
                 bill.setStatus(Status.InActive);
             } else {
@@ -88,7 +90,6 @@ public class BillService {
             }
 
             billRepo.save(bill);
-        }
     }
 
     public List<BillEntity> getBillByContactNumber(Long contactNumber) {

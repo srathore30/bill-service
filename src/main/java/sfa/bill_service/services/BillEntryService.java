@@ -1,6 +1,7 @@
 package sfa.bill_service.services;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sfa.bill_service.constants.ApiErrorCodes;
@@ -9,12 +10,10 @@ import sfa.bill_service.constants.Status;
 import sfa.bill_service.dto.req.BillEntryReq;
 import sfa.bill_service.dto.res.BillEntryRes;
 import sfa.bill_service.dto.res.PatientsRes;
-import sfa.bill_service.entities.BillEntryEntity;
-import sfa.bill_service.entities.PatientsEntity;
-import sfa.bill_service.entities.ServiceCategory;
-import sfa.bill_service.entities.ServicesEntity;
+import sfa.bill_service.entities.*;
 import sfa.bill_service.exceptions.NoSuchElementFoundException;
 import sfa.bill_service.repositories.BillEntryRepo;
+import sfa.bill_service.repositories.BillRepo;
 import sfa.bill_service.repositories.ServicesRepo;
 
 import java.util.Date;
@@ -26,6 +25,7 @@ import java.util.Optional;
 public class BillEntryService {
     private final BillEntryRepo billEntryRepo;
     private final ServicesRepo servicesRepo;
+    private final BillRepo billRepo;
 
     public BillEntryRes createBillEntry(BillEntryReq billEntryReq) {
         BillEntryEntity billEntryEntity = mapToEntity(billEntryReq);
@@ -49,12 +49,11 @@ public class BillEntryService {
     private BillEntryEntity mapToEntity(BillEntryReq req) {
         BillEntryEntity entity = new BillEntryEntity();
         entity.setPaidAmount(0.0);
+        BillEntity billEntity = billRepo.findById(req.getBillId())
+                .orElseThrow(() -> new NoSuchElementFoundException(ApiErrorCodes.BILL_NOT_FOUND.getErrorCode(),ApiErrorCodes.BILL_NOT_FOUND.getErrorMessage()));
+        entity.setPatient(billEntity.getPatient());
 
-        PatientsEntity patient = new PatientsEntity();
-        patient.setId(req.getBillId());
-        entity.setPatient(patient);
-        boolean isNabl = patient.isNabl();
-
+        boolean isNabl = billEntity.getPatient().isNabl();
         List<ServicesEntity> services = servicesRepo.findAllById(req.getServiceIds());
         double totalAmount = services.stream()
                 .mapToDouble(service -> isNabl ? service.getNablRate() : service.getNonNablRate())
@@ -62,16 +61,8 @@ public class BillEntryService {
 
         entity.setTotalAmount(totalAmount);
         entity.setServiceEntityList(services);
-
-        if (entity.getPaidAmount() >= totalAmount) {
-            entity.setStatus(Status.InActive);
-            entity.setBillStatus(BillStatus.PAID);
-            entity.setPaidAmount(totalAmount);
-        } else {
-            entity.setStatus(Status.Active);
-            entity.setBillStatus(BillStatus.UNPAID);
-        }
-
+        entity.setStatus(Status.Active);
+        entity.setBillStatus(BillStatus.UNPAID);
         return entity;
     }
 

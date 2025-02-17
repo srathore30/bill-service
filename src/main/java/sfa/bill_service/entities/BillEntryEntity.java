@@ -27,7 +27,7 @@ public class BillEntryEntity extends BaseEntity{
     PatientsEntity patient;
     @Enumerated(EnumType.STRING)
     Status status;
-    @OneToMany(mappedBy = "billEntryEntity", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     List<ServicesEntity> serviceEntityList;
     @ManyToOne
     BillEntity bill;
