@@ -7,6 +7,7 @@ import sfa.bill_service.constants.Status;
 import sfa.bill_service.dto.res.ServiceCategoryRes;
 import sfa.bill_service.entities.ServiceCategory;
 import sfa.bill_service.exceptions.NoSuchElementFoundException;
+import sfa.bill_service.exceptions.ValidationException;
 import sfa.bill_service.repositories.ServiceCategoryRepo;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public class ServiceCategoryServices {
     private final ServiceCategoryRepo serviceCategoryRepo;
 
     public ServiceCategoryRes createCategory(String name){
+        Optional<ServiceCategory> existingCategory = serviceCategoryRepo.findByName(name);
+        if (existingCategory.isPresent()) {
+            throw new ValidationException(ApiErrorCodes.CATEGORY_ALREADY_EXISTS.getErrorCode(), ApiErrorCodes.CATEGORY_ALREADY_EXISTS.getErrorMessage());
+        }
         ServiceCategory serviceCategory = new ServiceCategory(name, Status.Active);
         serviceCategoryRepo.save(serviceCategory);
         return new ServiceCategoryRes(serviceCategory.getId(), serviceCategory.getName());
