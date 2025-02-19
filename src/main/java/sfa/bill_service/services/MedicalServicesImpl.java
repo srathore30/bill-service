@@ -130,6 +130,7 @@ public class MedicalServicesImpl {
         res.setCghsLocation(entity.getCghsLocation());
         res.setServiceName(entity.getServiceName());
         res.setModifiedDate(entity.getModifiedDate());
+        res.setCreatedTime(entity.getCreatedTime());
         res.setCategoryName(entity.getServiceCategory().getName());
         res.setNablRate(entity.getNablRate());
         res.setNonNablRate(entity.getNonNablRate());

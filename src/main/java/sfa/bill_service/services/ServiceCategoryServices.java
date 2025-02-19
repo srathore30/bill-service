@@ -42,6 +42,14 @@ public class ServiceCategoryServices {
         return new ServiceCategoryRes(optionalServiceCategory.get().getId(), optionalServiceCategory.get().getName());
     }
 
+    public ServiceCategoryRes getCategoryByName(String name){
+        Optional<ServiceCategory> optionalServiceCategory = serviceCategoryRepo.findByName(name);
+        if(optionalServiceCategory.isEmpty()){
+            throw new NoSuchElementFoundException(ApiErrorCodes.CATEGORY_NOT_FOUND.getErrorCode(), ApiErrorCodes.CATEGORY_NOT_FOUND.getErrorMessage());
+        }
+        return new ServiceCategoryRes(optionalServiceCategory.get().getId(), optionalServiceCategory.get().getName());
+    }
+
     public void deleteCategoryById(Long id){
         Optional<ServiceCategory> optionalServiceCategory = serviceCategoryRepo.findById(id);
         if(optionalServiceCategory.isEmpty()){
