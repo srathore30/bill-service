@@ -19,4 +19,5 @@ public class ServicesRes {
     Float nonNablRate;
     String cghsLocation;
     String categoryName;
+    Date createdTime;
 }

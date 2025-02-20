@@ -31,7 +31,8 @@ public enum ApiErrorCodes implements Error {
     APPOINTMENT_NOT_FOUND(11245, "Appointment not found"),
     BILL_NOT_FOUND(11246,"Bill not found"),
     BILL_ENTRY_NOT_FOUND(11247,"Bill entry not found"),
-    ACTIVE_BILL_EXISTS(11248,"Active Bill already exist");
+    ACTIVE_BILL_EXISTS(11248,"Active Bill already exist"),
+    CATEGORY_ALREADY_EXISTS(11249,"Category already exist");
 
 
 

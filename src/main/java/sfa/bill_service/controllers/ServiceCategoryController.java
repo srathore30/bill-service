@@ -31,6 +31,13 @@ public class ServiceCategoryController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/getCategoryByName")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
+    public ResponseEntity<ServiceCategoryRes> getCategoryByName(@RequestParam String name) {
+        ServiceCategoryRes response = serviceCategoryServices.getCategoryByName(name);
+        return ResponseEntity.ok(response);
+    }
+
     @PutMapping("/{id}")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
     public ResponseEntity<ServiceCategoryRes> updateCategoryById(@PathVariable Long id, @RequestParam String name) {
