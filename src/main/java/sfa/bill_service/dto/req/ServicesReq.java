@@ -14,7 +14,6 @@ public class ServicesReq {
     String serviceName;
     String serviceCode;
     Long categoryId;
-    String cghsLocation;
     Float nablRate;
     Float nonNablRate;
 }

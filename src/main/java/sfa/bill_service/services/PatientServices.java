@@ -15,6 +15,7 @@ import sfa.bill_service.entities.PatientsEntity;
 import sfa.bill_service.exceptions.NoSuchElementFoundException;
 import sfa.bill_service.repositories.PatientsRepo;
 import sfa.bill_service.repositories.RoomRepo;
+import sfa.bill_service.util.UuidGenerator;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +73,7 @@ public class PatientServices {
         entity.setGender(req.getGender());
         entity.setUserRoleList(req.getUserRoleList());
         entity.setEmail(req.getEmail());
+        entity.setUnid(UuidGenerator.generateUniqueId());
         entity.setAddress(req.getAddress());
         entity.setAllergies(req.getAllergies());
         entity.setAge(req.getAge());
@@ -107,6 +109,7 @@ public class PatientServices {
         res.setEmail(entity.getEmail());
         res.setAllergies(entity.getAllergies());
         res.setId(entity.getId());
+        res.setUnid(entity.getUnid());
         res.setAddress(entity.getAddress());
         res.setAge(entity.getAge());
         res.setBloodGroup(entity.getBloodGroup());

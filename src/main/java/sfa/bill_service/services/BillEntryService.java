@@ -1,7 +1,6 @@
 package sfa.bill_service.services;
 
 import jakarta.transaction.Transactional;
-import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import sfa.bill_service.constants.ApiErrorCodes;
@@ -15,6 +14,7 @@ import sfa.bill_service.exceptions.NoSuchElementFoundException;
 import sfa.bill_service.repositories.BillEntryRepo;
 import sfa.bill_service.repositories.BillRepo;
 import sfa.bill_service.repositories.ServicesRepo;
+import sfa.bill_service.util.UuidGenerator;
 
 import java.util.Date;
 import java.util.List;
@@ -54,7 +54,7 @@ public class BillEntryService {
         entity.setPatient(billEntity.getPatient());
 
         boolean isNabl = billEntity.getPatient().isNabl();
-        List<ServicesEntity> services = servicesRepo.findAllById(req.getServiceIds());
+        List<MedicalServicesEntity> services = servicesRepo.findAllById(req.getServiceIds());
         double totalAmount = services.stream()
                 .mapToDouble(service -> isNabl ? service.getNablRate() : service.getNonNablRate())
                 .sum();
@@ -62,6 +62,7 @@ public class BillEntryService {
         entity.setTotalAmount(totalAmount);
         entity.setServiceEntityList(services);
         entity.setStatus(Status.Active);
+        entity.setBillNo(UuidGenerator.generateUniqueId());
         entity.setBillStatus(BillStatus.UNPAID);
         return entity;
     }

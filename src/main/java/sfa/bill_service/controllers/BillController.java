@@ -6,7 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sfa.bill_service.constants.UserRole;
-import sfa.bill_service.entities.BillEntity;
+import sfa.bill_service.dto.req.BillReq;
+import sfa.bill_service.dto.res.BillRes;
 import sfa.bill_service.entities.BillEntryEntity;
 import sfa.bill_service.interceptor.UserAuthorization;
 import sfa.bill_service.services.BillService;
@@ -22,26 +23,26 @@ class BillController {
 
     @PostMapping("/create")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<BillEntity> createBill(@RequestParam Long patientId) {
-        BillEntity bill = billService.createBill(patientId);
+    public ResponseEntity<BillRes> createBill(@RequestBody BillReq billReq) {
+        BillRes bill = billService.createBill(billReq);
         return new ResponseEntity<>(bill, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<BillEntity> getBillById(@PathVariable Long id) {
-        BillEntity bill = billService.getBillById(id);
+    public ResponseEntity<BillRes> getBillById(@PathVariable Long id) {
+        BillRes bill = billService.getBillById(id);
         return new ResponseEntity<>(bill, HttpStatus.OK);
     }
 
     @GetMapping("/getAllBills")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<Page<BillEntity>> getAllBills(
+    public ResponseEntity<PaginatedResp<BillRes>> getAllBills(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
             @RequestParam(defaultValue = "createdTime") String sortBy,
             @RequestParam(defaultValue = "desc") String sortDirection) {
-        Page<BillEntity> paginatedBills = billService.getAllBills(page, pageSize, sortBy, sortDirection);
+        PaginatedResp<BillRes> paginatedBills = billService.getAllBills(page, pageSize, sortBy, sortDirection);
         return new ResponseEntity<>(paginatedBills, HttpStatus.OK);
     }
 
@@ -54,8 +55,8 @@ class BillController {
 
     @GetMapping("/findByContactNumber/{contactNumber}")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<List<BillEntity>> getBillByContactNumber(@PathVariable Long contactNumber) {
-        List<BillEntity> bills = billService.getBillByContactNumber(contactNumber);
+    public ResponseEntity<List<BillRes>> getBillByContactNumber(@PathVariable Long contactNumber) {
+        List<BillRes> bills = billService.getBillByContactNumber(contactNumber);
         return new ResponseEntity<>(bills, HttpStatus.OK);
     }
 }

@@ -20,12 +20,18 @@ public class BillEntity extends BaseEntity{
 
     @Temporal(TemporalType.DATE)
     Date date;
+    String referBy;
 
+    String billNo;
+    Date admissionDate;
+    Date dischargeDate;
     Double totalAmount;
     Double paidAmount;
-
     @Enumerated(EnumType.STRING)
     BillStatus billStatus;
+
+    @ManyToOne
+    RoomEntity roomEntity;
 
     @ManyToOne
     PatientsEntity patient;

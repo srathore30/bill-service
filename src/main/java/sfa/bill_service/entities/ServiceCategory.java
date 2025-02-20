@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 import org.checkerframework.checker.units.qual.A;
 import sfa.bill_service.constants.Status;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class ServiceCategory extends BaseEntity{
     String name;
     @Enumerated(EnumType.STRING)
     Status status;
+    String cghsLocation;
+    Date lastUpdated;
 }

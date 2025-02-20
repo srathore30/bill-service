@@ -25,6 +25,7 @@ public class PatientsEntity extends BaseEntity{
     String gender;
     String age;
     String address;
+    String unid;
     Long contactNumber;
     String email;
     String bloodGroup;

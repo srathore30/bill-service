@@ -14,6 +14,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PatientsRes {
     List<UserRole> userRoleList;
+    String unid;
     String name;
     String gender;
     String age;

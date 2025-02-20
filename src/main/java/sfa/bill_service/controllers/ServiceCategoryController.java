@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sfa.bill_service.constants.UserRole;
+import sfa.bill_service.dto.req.CategoryReq;
 import sfa.bill_service.dto.req.ServicesReq;
 import sfa.bill_service.dto.res.ServiceCategoryRes;
 import sfa.bill_service.dto.res.ServicesRes;
@@ -22,15 +23,15 @@ public class ServiceCategoryController {
 
     @PostMapping
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<ServiceCategoryRes> createCategory(@RequestParam String name) {
-        ServiceCategoryRes response = serviceCategoryServices.createCategory(name);
+    public ResponseEntity<ServiceCategoryRes> createCategory(@RequestBody CategoryReq categoryReq) {
+        ServiceCategoryRes response = serviceCategoryServices.createCategory(categoryReq);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/bulk")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<List<ServiceCategoryRes>> createCategoryInBulk(@RequestBody List<String> categoryNames) {
-        List<ServiceCategoryRes> serviceCategoryRes = serviceCategoryServices.createCategoryInBulk(categoryNames);
+    public ResponseEntity<List<ServiceCategoryRes>> createCategoryInBulk(@RequestBody List<CategoryReq> categoryReqList) {
+        List<ServiceCategoryRes> serviceCategoryRes = serviceCategoryServices.createCategoryInBulk(categoryReqList);
         return new ResponseEntity<>(serviceCategoryRes, HttpStatus.CREATED);
     }
 
@@ -43,15 +44,15 @@ public class ServiceCategoryController {
 
     @GetMapping("/getCategoryByName")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<ServiceCategoryRes> getCategoryByName(@RequestParam String name) {
-        ServiceCategoryRes response = serviceCategoryServices.getCategoryByName(name);
+    public ResponseEntity<ServiceCategoryRes> getCategoryByName(@RequestParam String name, @RequestParam String cghsLocation) {
+        ServiceCategoryRes response = serviceCategoryServices.getCategoryByName(name, cghsLocation);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
     @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
-    public ResponseEntity<ServiceCategoryRes> updateCategoryById(@PathVariable Long id, @RequestParam String name) {
-        ServiceCategoryRes response = serviceCategoryServices.updateCategoryById(id, name);
+    public ResponseEntity<ServiceCategoryRes> updateCategoryById(@PathVariable Long id, @RequestBody CategoryReq req) {
+        ServiceCategoryRes response = serviceCategoryServices.updateCategoryById(id, req);
         return ResponseEntity.ok(response);
     }
 

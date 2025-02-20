@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ServiceCategoryRepo extends JpaRepository<ServiceCategory, Long> {
-    Optional<ServiceCategory> findByName(String name);
+    Optional<ServiceCategory> findByNameAndCghsLocation(String name, String cghsLocation);
 }
