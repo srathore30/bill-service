@@ -1,10 +1,13 @@
 package sfa.bill_service.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sfa.bill_service.constants.UserRole;
+import sfa.bill_service.dto.req.ServicesReq;
 import sfa.bill_service.dto.res.ServiceCategoryRes;
+import sfa.bill_service.dto.res.ServicesRes;
 import sfa.bill_service.interceptor.UserAuthorization;
 import sfa.bill_service.services.ServiceCategoryServices;
 
@@ -22,6 +25,13 @@ public class ServiceCategoryController {
     public ResponseEntity<ServiceCategoryRes> createCategory(@RequestParam String name) {
         ServiceCategoryRes response = serviceCategoryServices.createCategory(name);
         return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/bulk")
+    @UserAuthorization(allowedRoles = {UserRole.Super_Admin,UserRole.Admin,UserRole.User,UserRole.Receptionist})
+    public ResponseEntity<List<ServiceCategoryRes>> createCategoryInBulk(@RequestBody List<String> categoryNames) {
+        List<ServiceCategoryRes> serviceCategoryRes = serviceCategoryServices.createCategoryInBulk(categoryNames);
+        return new ResponseEntity<>(serviceCategoryRes, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
