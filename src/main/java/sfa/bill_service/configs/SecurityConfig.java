@@ -34,13 +34,6 @@ public class SecurityConfig {
                         requestMatchers("/user").authenticated().
                         requestMatchers("/swagger-ui/**","/v3/api-docs/swagger-config","/v3/api-docs/**").permitAll().
                         requestMatchers("/home").permitAll().
-                        requestMatchers("/auth/login").permitAll().
-                        requestMatchers("/auth/create").permitAll().
-                        requestMatchers("/auth/loginSuperAdmin").permitAll().
-                        requestMatchers("/auth/createSuperAdmin").permitAll().
-                        requestMatchers("/auth/validateToken").permitAll().
-                        requestMatchers("/auth/salonLogin").permitAll().
-                        requestMatchers("/auth/staffLogin").permitAll().
                         anyRequest().permitAll())
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint)) // if any exception come
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // nothing to save on server

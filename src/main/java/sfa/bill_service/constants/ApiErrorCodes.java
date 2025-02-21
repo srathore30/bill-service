@@ -16,6 +16,10 @@ public enum ApiErrorCodes implements Error {
     CANNOT_RESET_PASSWORD(54515,"cannot reset password"),
     LAB_TEST_NOT_FOUND(54515, "lab test not found"),
     CATEGORY_NOT_FOUND(54515, "CATEGORY not found"),
+    STATE_NOT_FOUND(55515, "State not found"),
+    CITY_NOT_FOUND(55215, "City not found"),
+    STATE_ALREADY_EXIT(55515, "State already exit"),
+    CITY_ALREADY_EXIT(55215, "City already exit"),
 
     INVALID_MOBILE_NUMBER(11102, "Invalid mobile number"),
     USER_NOT_FOUND(11104, "User not found"),
